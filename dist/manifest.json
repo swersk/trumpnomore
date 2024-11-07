@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Trump Eradicator",
+  "version": "1.0",
+  "description": "Replaces specific content on CNN with quotes",
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_title": "Content Filter"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "images/replacement-img.png",
+        "images/replacement-img2.png",
+        "images/replacement-img3.png"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

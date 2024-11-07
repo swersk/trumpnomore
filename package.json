@@ -1,0 +1,27 @@
+{
+  "name": "trump-eradicator",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "content.js",
+  "scripts": {
+    "build": "npx rollup -c",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^21.0.2",
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "@rollup/plugin-replace": "^4.0.0",
+    "@rollup/plugin-typescript": "^8.3.0",
+    "@types/chrome": "^0.0.280",
+    "eslint": "^9.14.0",
+    "rollup": "^2.79.2",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-string": "^3.0.0",
+    "tslib": "^2.4.0",
+    "typescript": "^5.6.3"
+  }
+}
