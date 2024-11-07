@@ -1,9 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "Trump Eradicator",
+  "name": "Trump Image Eradicator",
   "version": "1.0",
-  "description": "Replaces specific content on CNN with quotes",
+  "description": "Replace Trump images with your own",
   "permissions": ["storage"],
+  
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
@@ -11,8 +12,9 @@
     }
   ],
   "action": {
+    "default_popup": "popup.html",
     "default_title": "Content Filter"
-  },
+  },  
   "web_accessible_resources": [
     {
       "resources": [

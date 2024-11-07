@@ -1,59 +1,64 @@
 (function () {
-    'use strict';
+  'use strict';
 
-    (function () {
-        const replacementImages = [
-            'images/replacement-img.png',
-            'images/replacement-img2.png',
-            'images/replacement-img3.png',
-        ];
-        // Function to get a random quote
-        //   function getRandomQuote() {
-        //       return quotes[Math.floor(Math.random() * quotes.length)];
-        //   }
-        // Function to replace content containing "Trump" with a random quote
-        //   function replaceContent(containerSelector: string, textSelector: string) {
-        //       const container = document.querySelector(containerSelector);
-        //       if (!container) return;
-        //       const elements = Array.from(container.querySelectorAll(textSelector)).filter((el) => 
-        //           el.textContent?.includes("Trump")
-        //       );
-        //       elements.forEach((el) => {
-        //           const quote = getRandomQuote();
-        //           el.innerHTML = `<span style="background-color: lightgray; border: 1px solid gray; padding: 2px;"><span>${quote.text}</span><small>- ${quote.source}</small></span>`;
-        //       });
-        //   }
-        // Function to get a random image URL from the array
-        function getRandomImageUrl() {
-            const randomImage = replacementImages[Math.floor(Math.random() * replacementImages.length)];
-            return chrome.runtime.getURL(randomImage);
-        }
-        // Function to replace images with a "Trump" alt text with a random replacement image
-        function replaceImages(imageSelector) {
-            const pictures = Array.from(document.querySelectorAll(imageSelector));
-            pictures.forEach((picture) => {
-                const img = picture.querySelector('img');
-                if (img && img.alt.toLowerCase().includes("trump")) {
-                    const randomImageUrl = getRandomImageUrl();
-                    img.src = randomImageUrl;
-                    img.alt = "Replaced image";
-                    img.style.width = '100%';
-                    img.style.height = 'auto';
-                    img.style.objectFit = 'cover';
-                    picture.querySelectorAll('source').forEach((source) => {
-                        source.srcset = randomImageUrl;
-                    });
-                }
-            });
-        }
-        // Event listener to trigger content and image replacement on page load
-        window.addEventListener('load', () => {
-            //   replaceContent(
-            //       '.layout__content-wrapper.layout-homepage__content-wrapper', // CNN container selector
-            //       'span, a, li, h2'   
-            //   );
-            replaceImages('picture');
-        });
-    })();
+  /******************************************************************************
+  Copyright (c) Microsoft Corporation.
+
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted.
+
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+  REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+  AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+  INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+  LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+  OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+  PERFORMANCE OF THIS SOFTWARE.
+  ***************************************************************************** */
+
+  function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+  }
+
+  typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
+    var e = new Error(message);
+    return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+  };
+
+  function getRandomImageUrl() {
+      return __awaiter(this, void 0, void 0, function* () {
+          const { replacementImages = [], activeImages = [] } = yield chrome.storage.local.get(['replacementImages', 'activeImages']);
+          const imagesToUse = activeImages.length > 0 ? activeImages : [chrome.runtime.getURL('images/replacement-img.png')];
+          return imagesToUse[Math.floor(Math.random() * imagesToUse.length)];
+      });
+  }
+  function replaceImages(imageSelector) {
+      return __awaiter(this, void 0, void 0, function* () {
+          const pictures = Array.from(document.querySelectorAll(imageSelector));
+          for (const picture of pictures) {
+              const img = picture.querySelector('img');
+              if (img && img.alt.toLowerCase().includes("trump")) {
+                  const randomImageUrl = yield getRandomImageUrl();
+                  img.src = randomImageUrl;
+                  img.alt = "Replaced image";
+                  img.style.width = '100%';
+                  img.style.height = 'auto';
+                  img.style.objectFit = 'cover';
+                  picture.querySelectorAll('source').forEach((source) => {
+                      source.srcset = randomImageUrl;
+                  });
+              }
+          }
+      });
+  }
+  window.addEventListener('load', () => {
+      replaceImages('picture');
+  });
 
 })();
